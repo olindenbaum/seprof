@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,11 +23,68 @@ ThemeData coodinatorTheme = ThemeData(
   accentColor: Color(0xFFFDDD2),
 );
 
+class SplashPage extends StatefulWidget {
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  Future<LottieComposition> _composition;
+
+  @override
+  void initState() {
+    super.initState();
+    _composition = _loadComposition();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    startTimer(context);
+  }
+
+  void startTimer(BuildContext context) {
+    Future.delayed(Duration(seconds: 3))
+        .then((value) => Navigator.of(context).pushReplacementNamed("/"));
+  }
+
+  Future<LottieComposition> _loadComposition() async {
+    var assetData = await rootBundle.load('assets/lottie/delivery.json');
+    return await LottieComposition.fromByteData(assetData);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xFFE29578),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: FutureBuilder<LottieComposition>(
+        future: _composition,
+        builder: (context, snapshot) {
+          var composition = snapshot.data;
+          if (composition != null) {
+            return Lottie(composition: composition);
+          } else {
+            return Center(
+                child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Color(0xFF006D77),
+              ),
+            ));
+          }
+        },
+      ),
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xFF006D77),
         accentColor: Color(0xFFE29578),
@@ -33,13 +92,14 @@ class MyApp extends StatelessWidget {
       title: '$name Demo',
       routes: {
         "/": (context) => HomePage(),
+        "/splash": (context) => SplashPage(),
         // "/signup": (context) => SignupPage(),
         // "/login": (context) => LoginPage(),
         // "/coordinator": (context) => CoordinatorPage(),
         // "/packer": (context) => PackerPage(),
         // "/driver": (context) => DriverPage()
       },
-      initialRoute: "/",
+      initialRoute: "/splash",
       // onGenerateRoute: (settings) {
       //   switch (settings.name) {
       //     case "/signup":
@@ -140,62 +200,104 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: RaisedButton(
-        child: Icon(Icons.arrow_back),
-        onPressed: () => widget.navigatorCallback(1, 300),
+      resizeToAvoidBottomPadding: true,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(90.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).primaryColor.withOpacity(0.2),
+              blurRadius: 3,
+              offset: Offset(6, 2),
+            ),
+          ],
+        ),
+        child: RaisedButton(
+          color: Theme.of(context).accentColor,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(90.0)),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          child: Icon(Icons.arrow_back),
+          onPressed: () => widget.navigatorCallback(1, duration: 300),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: packerTheme.accentColor,
-      body: Column(children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            "Login page",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-          ),
-        ),
-        TextField(
-          controller: username,
-          decoration: InputDecoration(
-            labelText: "Email",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(90.0)),
-              borderSide: BorderSide(
-                  color: formselected == 1
-                      ? Theme.of(context).accentColor
-                      : Colors.transparent),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                "Login page",
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-          onTap: () {
-            setState(() {
-              this.formselected = 1;
-            });
-          },
-        ),
-        TextField(
-          obscureText: true,
-          controller: password,
-          decoration: InputDecoration(
-            labelText: "Password",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(90.0)),
-              borderSide: BorderSide(
-                  color: formselected == 2
-                      ? Theme.of(context).accentColor
-                      : Colors.transparent),
+          Spacer(
+            flex: 1,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8),
+            child: TextField(
+              controller: username,
+              decoration: InputDecoration(
+                labelText: "Email",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                  borderSide: BorderSide(
+                      color: formselected == 1
+                          ? Theme.of(context).accentColor
+                          : Colors.transparent),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  this.formselected = 1;
+                });
+              },
             ),
           ),
-          onTap: () {
-            setState(() {
-              this.formselected = 2;
-            });
-          },
-        ),
-        RaisedButton(
-          child: Text("Login"),
-          onPressed: () {},
-        )
-      ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8),
+            child: TextField(
+              obscureText: true,
+              controller: password,
+              decoration: InputDecoration(
+                labelText: "Password",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                  borderSide: BorderSide(
+                      color: formselected == 2
+                          ? Theme.of(context).accentColor
+                          : Colors.transparent),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  this.formselected = 2;
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 16),
+            child: RaisedButton(
+              child: Text("Login", style: TextStyle(fontSize: 15)),
+              onPressed: () {},
+              color: Theme.of(context).accentColor,
+              splashColor: Theme.of(context).primaryColor,
+              shape: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                borderSide: BorderSide(color: Theme.of(context).accentColor),
+              ),
+            ),
+          ),
+          Spacer(flex: 1),
+        ],
+      ),
     );
   }
 }
@@ -207,14 +309,33 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: RaisedButton(
-        child: Icon(Icons.arrow_back),
-        onPressed: () => navigatorCallback(1, 300),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(90.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).primaryColor.withOpacity(0.2),
+              blurRadius: 3,
+              offset: Offset(6, 2),
+            ),
+          ],
+        ),
+        child: RaisedButton(
+          color: Theme.of(context).accentColor,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(90.0)),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          child: Icon(Icons.arrow_forward),
+          onPressed: () => navigatorCallback(1, duration: 300),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: driverTheme.accentColor,
-      body: Container(
-        child: Text("SignupPage page"),
+      body: Center(
+        child: Container(
+          child: Text("SignupPage", style: TextStyle(fontSize: 24)),
+        ),
       ),
     );
   }
