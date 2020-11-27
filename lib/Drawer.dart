@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kt_drawer_menu/kt_drawer_menu.dart';
 import 'package:provider/provider.dart';
-import 'main.dart';
+import 'package:seprof/PageHelpers.dart';
 
 enum DrawerItemEnum {
   SETTINGS,
