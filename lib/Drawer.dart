@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kt_drawer_menu/kt_drawer_menu.dart';
 import 'package:provider/provider.dart';
+import 'main.dart';
 
 enum DrawerItemEnum {
   SETTINGS,
@@ -74,6 +75,7 @@ class _DrawerPageState extends State<DrawerPage> {
             curve: Curves.ease,
             duration: Duration(seconds: 2),
           );
+          Provider.of<PageVisible>(context, listen: false).setAll(false);
           // Navigator.of(context).pop();
         });
       case DrawerItemEnum.SETTINGS:

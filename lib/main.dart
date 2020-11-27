@@ -190,6 +190,19 @@ class FadeRouteBuilder<T> extends PageRouteBuilder<T> {
         );
 }
 
+class PageVisible extends ValueNotifier<Map<String, bool>> {
+  PageVisible(Map<String, bool> value) : super(value);
+
+  void setType(String type, bool to) {
+    value[type] = to;
+    notifyListeners();
+  }
+
+  void setAll(bool to) {
+    value.map((key, value) => MapEntry(key, to));
+  }
+}
+
 class LoginPage extends StatefulWidget {
   Function navigatorCallback;
   LoginPage({Key key, @required this.navigatorCallback}) : super(key: key);
@@ -212,6 +225,10 @@ class _LoginPageState extends State<LoginPage> {
         ListenableProvider<PageController>(
           create: (BuildContext context) => new PageController(initialPage: 0),
         ),
+        ListenableProvider<PageVisible>(
+          create: (c) => new PageVisible(
+              {"driver": false, "packer": false, "coordinator": false}),
+        )
       ],
       child: Builder(
         builder: (_) => LoginPageSwitcher(
@@ -428,6 +445,9 @@ class _LoginPageMainState extends State<LoginPageMain>
                   child: Text("Login", style: TextStyle(fontSize: 15)),
                   onPressed: () {
                     if (widget.username.text.contains("coord")) {
+                      Provider.of<PageVisible>(context, listen: false)
+                          .setType("coordinator", true);
+
                       Provider.of<PageController>(context, listen: false)
                           .animateToPage(
                         1,
@@ -437,6 +457,8 @@ class _LoginPageMainState extends State<LoginPageMain>
                       // Navigator.of(context).pushNamed("/coordinator");
                     } else if (widget.username.text.contains("pack")) {
                       // Navigator.of(context).pushNamed("/packer");
+                      Provider.of<PageVisible>(context, listen: false)
+                          .setType("packer", true);
                       Provider.of<PageController>(context, listen: false)
                           .animateToPage(
                         2,
@@ -445,6 +467,9 @@ class _LoginPageMainState extends State<LoginPageMain>
                       );
                     } else if (widget.username.text.contains("drive")) {
                       // Navigator.of(context).pushNamed("/driver");
+                      Provider.of<PageVisible>(context, listen: false)
+                          .setType("driver", true);
+
                       Provider.of<PageController>(context, listen: false)
                           .animateToPage(
                         3,
@@ -519,38 +544,48 @@ class DriverPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: driverTheme,
-      child: KTDrawerMenu(
-        width: 150,
-        drawer: DrawerPage(),
-        content: Container(
-          color: driverTheme.accentColor,
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: driverTheme.accentColor,
-              body: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: AccountSettings(
-                        themeData: driverTheme,
-                      ),
+      child: Builder(
+        builder: (context) {
+          if (Provider.of<PageVisible>(context, listen: true).value["driver"] ==
+              true) {
+            return KTDrawerMenu(
+              width: 150,
+              drawer: DrawerPage(),
+              content: Container(
+                color: driverTheme.accentColor,
+                child: SafeArea(
+                  child: Scaffold(
+                    backgroundColor: driverTheme.accentColor,
+                    body: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: AccountSettings(
+                                themeData: driverTheme, type: "driver"),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            child: Text(
+                              "driver Page",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Center(
-                    child: Container(
-                      child: Text(
-                        "Driver Page",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
+            );
+          } else {
+            return FittedBox(
+                fit: BoxFit.fill,
+                child: Container(color: driverTheme.accentColor));
+          }
+        },
       ),
     );
   }
@@ -561,38 +596,50 @@ class CoordinatorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: coordinatorTheme,
-      child: KTDrawerMenu(
-        width: 150,
-        drawer: DrawerPage(),
-        content: Container(
-          color: coordinatorTheme.accentColor,
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: coordinatorTheme.accentColor,
-              body: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: AccountSettings(
-                        themeData: coordinatorTheme,
-                      ),
+      child: Builder(
+        builder: (context) {
+          if (Provider.of<PageVisible>(context, listen: true)
+                  .value["coordinator"] ==
+              true) {
+            return KTDrawerMenu(
+              width: 150,
+              drawer: DrawerPage(),
+              content: Container(
+                color: coordinatorTheme.accentColor,
+                child: SafeArea(
+                  child: Scaffold(
+                    backgroundColor: coordinatorTheme.accentColor,
+                    body: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: AccountSettings(
+                                themeData: coordinatorTheme,
+                                type: "coordinator"),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            child: Text(
+                              "coordinator Page",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Center(
-                    child: Container(
-                      child: Text(
-                        "Coordinator Page",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
+            );
+          } else {
+            return FittedBox(
+                fit: BoxFit.fill,
+                child: Container(color: coordinatorTheme.accentColor));
+          }
+        },
       ),
     );
   }
@@ -604,37 +651,47 @@ class PackerPage extends StatelessWidget {
     return Theme(
       data: packerTheme,
       child: Builder(
-        builder: (context) => KTDrawerMenu(
-          width: 150,
-          drawer: DrawerPage(),
-          content: Container(
-            color: packerTheme.accentColor,
-            child: SafeArea(
-              child: Scaffold(
-                backgroundColor: packerTheme.accentColor,
-                body: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: AccountSettings(themeData: packerTheme),
-                      ),
-                    ),
-                    Center(
-                      child: Container(
-                        child: Text(
-                          "Packer Page",
-                          style: TextStyle(fontSize: 30),
+        builder: (context) {
+          if (Provider.of<PageVisible>(context, listen: true).value["packer"] ==
+              true) {
+            return KTDrawerMenu(
+              width: 150,
+              drawer: DrawerPage(),
+              content: Container(
+                color: packerTheme.accentColor,
+                child: SafeArea(
+                  child: Scaffold(
+                    backgroundColor: packerTheme.accentColor,
+                    body: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: AccountSettings(
+                                themeData: packerTheme, type: "packer"),
+                          ),
                         ),
-                      ),
+                        Center(
+                          child: Container(
+                            child: Text(
+                              "Packer Page",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
+            );
+          } else {
+            return FittedBox(
+                fit: BoxFit.fill,
+                child: Container(color: packerTheme.accentColor));
+          }
+        },
       ),
     );
   }
@@ -642,7 +699,8 @@ class PackerPage extends StatelessWidget {
 
 class AccountSettings extends StatelessWidget {
   final ThemeData themeData;
-  AccountSettings({this.themeData});
+  String type;
+  AccountSettings({this.themeData, this.type});
 
   @override
   Widget build(BuildContext context) {
