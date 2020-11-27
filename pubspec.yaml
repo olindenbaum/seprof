@@ -23,7 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  concentric_transition: ^0.1.1
   cupertino_icons: ^1.0.0
+  kt_drawer_menu: ^0.0.6
   liquid_swipe: ^1.5.0
   lottie: ^0.7.0+1
   path_provider: ^1.6.24
