@@ -13,20 +13,20 @@ class AccountSettings extends StatelessWidget {
       child: InkWell(
         child: Container(
           padding: const EdgeInsets.all(8),
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: 55,
+          width: MediaQuery.of(context).size.width * 0.72,
+          height: 60,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(
                 Radius.circular(90.0),
               ),
-              border:
-                  Border.all(color: themeData.primaryColor.withOpacity(0.6))),
+              border: Border.all(
+                  color: themeData.primaryColor.withOpacity(0.6), width: 3)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Account Settings",
+                "${type[0].toUpperCase()}${type.substring(1)} Settings",
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 24,

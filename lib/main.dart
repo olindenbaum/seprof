@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         "/packer": (context) => PackerPage(),
         "/driver": (context) => DriverPage()
       },
-      initialRoute: "/splash",
+      initialRoute: "/",
       // onGenerateRoute: (settings) {
       //   switch (settings.name) {
       //     case "/signup":

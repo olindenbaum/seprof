@@ -155,7 +155,7 @@ class _LoginPageMainState extends State<LoginPageMain>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomInset: true,
       floatingActionButton: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(90.0)),
@@ -247,7 +247,9 @@ class _LoginPageMainState extends State<LoginPageMain>
                     right: 24.0 - offsetAnimation.value),
                 child: RaisedButton(
                   child: Text("Login", style: TextStyle(fontSize: 15)),
-                  onPressed: () {
+                  onPressed: () async {
+                    FocusScope.of(context).unfocus();
+                    await Future.delayed(Duration(milliseconds: 300));
                     if (widget.username.text.contains("coord")) {
                       Provider.of<PageVisible>(context, listen: false)
                           .setType("coordinator", true);

@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kt_drawer_menu/kt_drawer_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:seprof/AccountSettingsBar.dart';
@@ -23,28 +27,9 @@ class CoordinatorPage extends StatelessWidget {
                 color: coordinatorTheme.accentColor,
                 child: SafeArea(
                   child: Scaffold(
+                    resizeToAvoidBottomInset: false,
                     backgroundColor: coordinatorTheme.accentColor,
-                    body: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: AccountSettings(
-                                themeData: coordinatorTheme,
-                                type: "coordinator"),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            child: Text(
-                              "coordinator Page",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    body: CoordinatorPageContents(),
                   ),
                 ),
               ),
@@ -56,6 +41,57 @@ class CoordinatorPage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class CoordinatorPageContents extends StatelessWidget {
+  const CoordinatorPageContents({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: AccountSettings(
+                    themeData: coordinatorTheme, type: "coordinator"),
+              ),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AccountPageOptionButton(
+                      icon: FontAwesomeIcons.calendar,
+                      text: "Timetable",
+                      onPressed: () {}),
+                  AccountPageOptionButton(
+                      icon: Icons.people,
+                      text: "Update Recipients",
+                      onPressed: () {}),
+                  AccountPageOptionButton(
+                      icon: FontAwesomeIcons.gift,
+                      text: "View Parcels",
+                      onPressed: () {}),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: SvgPicture.asset(
+            "assets/undraw/coordinator.svg",
+          ),
+        ),
+      ],
     );
   }
 }
