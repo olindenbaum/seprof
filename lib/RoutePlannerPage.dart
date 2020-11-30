@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:kt_drawer_menu/kt_drawer_menu.dart';
 import 'package:seprof/AccountSettingsBar.dart';
 import 'package:seprof/Drawer.dart';
+import 'package:seprof/Vars.dart';
 
 class RoutePlannerPage extends StatelessWidget {
   final String type;
@@ -69,10 +70,9 @@ class _RoutePlannerPageContentsState extends State<RoutePlannerPageContents> {
   }
 
   double randomOffset() {
-    if (r.nextInt(2) == 1) {
-      return -r.nextDouble() * 0.001;
-    }
-    return r.nextDouble() * 0.001;
+    double res;
+    res = r.nextInt(2) == 1 ? -r.nextDouble() * 0.01 : r.nextDouble() * 0.01;
+    return res;
   }
 
   @override
@@ -113,79 +113,131 @@ class _RoutePlannerPageContentsState extends State<RoutePlannerPageContents> {
             ),
           ),
         ),
-        Center(
+        Expanded(
+          child: Center(
             child: ClipPath(
-          clipper: OvalTopBorderClipper(),
-          child: ClipPath(
-            clipper: OvalBottomBorderClipper(),
-            child: Container(
-              height: 660,
-              width: MediaQuery.of(context).size.width,
-              child: FutureBuilder<Position>(
-                  future: getPosition(),
-                  builder: (context, snap) {
-                    if (!snap.hasData) {
-                      return Center(
-                          child: SpinKitChasingDots(
-                              color: Theme.of(context).primaryColor));
-                    }
-                    Position position = snap.data;
-                    return FlutterMap(
-                      options: new MapOptions(
-                        center: LatLng(position.latitude, position.longitude),
-                        zoom: 30.0,
-                      ),
-                      layers: [
-                        new TileLayerOptions(
-                            urlTemplate:
-                                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            subdomains: ['a', 'b', 'c']),
-                        new MarkerLayerOptions(
-                          markers: [
-                            new Marker(
-                              width: 30.0,
-                              height: 30.0,
-                              point:
-                                  LatLng(position.latitude, position.longitude),
-                              builder: (ctx) => new Container(
-                                child: new Icon(FontAwesomeIcons.locationArrow),
-                              ),
-                            ),
-                            new Marker(
-                              width: 10.0,
-                              height: 10.0,
-                              point: LatLng(position.latitude + randomOffset(),
-                                  position.longitude + randomOffset()),
-                              builder: (ctx) => new Container(
-                                child: new Icon(FontAwesomeIcons.marker),
-                              ),
-                            ),
-                            new Marker(
-                              width: 10.0,
-                              height: 10.0,
-                              point: LatLng(position.latitude + randomOffset(),
-                                  position.longitude + randomOffset()),
-                              builder: (ctx) => new Container(
-                                child: new Icon(FontAwesomeIcons.marker),
-                              ),
-                            ),
-                            new Marker(
-                              width: 10.0,
-                              height: 10.0,
-                              point: LatLng(position.latitude + randomOffset(),
-                                  position.longitude + randomOffset()),
-                              builder: (ctx) => new Container(
-                                child: new Icon(FontAwesomeIcons.marker),
-                              ),
+              clipper: OvalTopBorderClipper(),
+              child: ClipPath(
+                clipper: OvalBottomBorderClipper(),
+                child: Container(
+                  child: FutureBuilder<Position>(
+                      future: getPosition(),
+                      builder: (context, snap) {
+                        if (!snap.hasData) {
+                          return Center(
+                              child: SpinKitChasingDots(
+                                  color: Theme.of(context).primaryColor));
+                        }
+                        Position position = snap.data;
+                        return FlutterMap(
+                          options: new MapOptions(
+                            center:
+                                LatLng(position.latitude, position.longitude),
+                            zoom: 14.5,
+                          ),
+                          layers: [
+                            new TileLayerOptions(
+                                urlTemplate:
+                                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                subdomains: ['a', 'b', 'c']),
+                            new MarkerLayerOptions(
+                              markers: [
+                                new Marker(
+                                  width: 30.0,
+                                  height: 30.0,
+                                  point: LatLng(
+                                      position.latitude, position.longitude),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(
+                                        FontAwesomeIcons.locationArrow),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                                new Marker(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  point: LatLng(
+                                      position.latitude + randomOffset(),
+                                      position.longitude + randomOffset()),
+                                  builder: (ctx) => new Container(
+                                    child: new Icon(FontAwesomeIcons.mapMarker),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ],
-                    );
-                  }),
+                        );
+                      }),
+                ),
+              ),
             ),
           ),
-        )),
+        ),
+        AccountPageOptionButton(
+          icon: Icons.no_encryption,
+          onPressed: null,
+          text: "Generate Route",
+          textPadding: const EdgeInsets.only(right: 20),
+        )
       ],
     );
   }

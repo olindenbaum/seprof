@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         "/packer": (context) => PackerPage(),
         "/driver": (context) => DriverPage()
       },
-      initialRoute: "/",
+      initialRoute: "/splash",
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case "/vshift":
