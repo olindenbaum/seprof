@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:seprof/BookShiftPage.dart';
 import 'package:seprof/CoordinatorPage.dart';
 import 'package:seprof/DriverPage.dart';
 import 'package:seprof/LoginPage.dart';
 import 'package:seprof/PackerPage.dart';
+import 'package:seprof/PageHelpers.dart';
+import 'package:seprof/RoutePlannerPage.dart';
 import 'package:seprof/SignupPage.dart';
 import 'package:seprof/SplashScreen.dart';
 import 'package:seprof/StartPage.dart';
 import 'package:seprof/Vars.dart';
+import 'package:seprof/ViewShiftPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,14 +38,28 @@ class MyApp extends StatelessWidget {
         "/driver": (context) => DriverPage()
       },
       initialRoute: "/",
-      // onGenerateRoute: (settings) {
-      //   switch (settings.name) {
-      //     case "/signup":
-      //       return FadeRouteBuilder(page: SignupPage());
-      //     case "/login":
-      //       return FadeRouteBuilder(page: LoginPage());
-      //   }
-      // },
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case "/vshift":
+            ShiftPageSettings vsettings = settings.arguments;
+            return FadeRouteBuilder(
+                page: ViewShiftPage(
+                    vsettings == null ? "packer" : vsettings.type,
+                    vsettings == null ? Theme.of(context) : vsettings.theme));
+          case "/bshift":
+            ShiftPageSettings vsettings = settings.arguments;
+            return FadeRouteBuilder(
+                page: BookShiftPage(
+                    vsettings == null ? "packer" : vsettings.type,
+                    vsettings == null ? Theme.of(context) : vsettings.theme));
+          case "/route":
+            ShiftPageSettings vsettings = settings.arguments;
+            return FadeRouteBuilder(
+                page: RoutePlannerPage(
+                    vsettings == null ? "driver" : vsettings.type,
+                    vsettings == null ? Theme.of(context) : vsettings.theme));
+        }
+      },
     );
   }
 }

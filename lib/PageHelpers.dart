@@ -5,6 +5,8 @@ class FadeRouteBuilder<T> extends PageRouteBuilder<T> {
 
   FadeRouteBuilder({@required this.page})
       : super(
+          transitionDuration: Duration(milliseconds: 1100),
+          reverseTransitionDuration: Duration(milliseconds: 900),
           pageBuilder: (context, animation1, animation2) => page,
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(opacity: animation1, child: child);
@@ -23,4 +25,11 @@ class PageVisible extends ValueNotifier<Map<String, bool>> {
   void setAll(bool to) {
     value.map((key, value) => MapEntry(key, to));
   }
+}
+
+class ShiftPageSettings {
+  final String name;
+  final String type;
+  final ThemeData theme;
+  ShiftPageSettings(this.name, this.type, this.theme);
 }

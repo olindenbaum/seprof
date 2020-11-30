@@ -20,35 +20,65 @@ class AccountPageOptionButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final Function onPressed;
-  const AccountPageOptionButton({Key key, this.icon, this.text, this.onPressed})
+  final EdgeInsets padding;
+  final EdgeInsets textPadding;
+  final bool reverse;
+
+  const AccountPageOptionButton(
+      {Key key,
+      this.icon,
+      this.text,
+      this.reverse = false,
+      this.onPressed,
+      this.padding = const EdgeInsets.symmetric(horizontal: 8.0, vertical: 14),
+      this.textPadding = const EdgeInsets.only(left: 8.0)})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 14),
+      padding: padding,
       child: RaisedGradientButton(
-          onPressed: onPressed,
-          width: MediaQuery.of(context).size.width * 0.9,
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Theme.of(context).primaryColor.withOpacity(0.9),
-                Theme.of(context).primaryColor.withOpacity(0.4)
-              ]),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Icon(icon, color: Colors.white.withOpacity(0.95)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(text,
-                  style: TextStyle(
-                      fontSize: 32, color: Colors.white.withOpacity(0.95))),
-            )
-          ])),
+        onPressed: onPressed,
+        width: MediaQuery.of(context).size.width * 0.9,
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).primaryColor.withOpacity(0.9),
+              Theme.of(context).primaryColor.withOpacity(0.4)
+            ]),
+        child: Row(
+          mainAxisAlignment:
+              reverse ? MainAxisAlignment.start : MainAxisAlignment.end,
+          children: [
+            reverse
+                ? Container()
+                : Padding(
+                    padding: textPadding,
+                    child: Text(text,
+                        style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.white.withOpacity(0.95))),
+                  ),
+            icon == Icons.no_encryption
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Icon(icon, color: Colors.white.withOpacity(0.95)),
+                  ),
+            reverse
+                ? Padding(
+                    padding: textPadding,
+                    child: Text(text,
+                        style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.white.withOpacity(0.95))),
+                  )
+                : Container()
+          ],
+        ),
+      ),
     );
   }
 }

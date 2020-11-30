@@ -67,11 +67,19 @@ class PackerPageContents extends StatelessWidget {
               AccountPageOptionButton(
                   icon: FontAwesomeIcons.calendarPlus,
                   text: "Book Shifts",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/bshift",
+                        arguments: ShiftPageSettings(
+                            "/bshift", "packer", packerTheme));
+                  }),
               AccountPageOptionButton(
                   icon: FontAwesomeIcons.peopleCarry,
                   text: "My Shifts",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/vshift",
+                        arguments: ShiftPageSettings(
+                            "/vshift", "packer", packerTheme));
+                  }),
               Divider(
                 height: 10,
                 indent: 60,
@@ -91,10 +99,13 @@ class PackerPageContents extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              "assets/undraw/packer.svg",
+          child: Hero(
+            tag: "illustration",
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SvgPicture.asset(
+                "assets/undraw/packer.svg",
+              ),
             ),
           ),
         ),

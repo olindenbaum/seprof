@@ -27,11 +27,15 @@ dependencies:
     git:
       url: https://github.com/kiatuki/animated_qr_code_scanner.git
       ref: v0.1.7
+  animated_stream_list: ^1.1.0
   concentric_transition: ^0.1.1
   cupertino_icons: ^1.0.0
+  flutter_custom_clippers: ^1.1.2
+  flutter_map: ^0.10.1+1
   flutter_spinkit: ^4.1.2+1
   flutter_svg: ^0.19.2+1
   font_awesome_flutter: ^8.10.0
+  geolocator: ^6.1.8+1
   kt_drawer_menu: ^0.0.6
   liquid_swipe: ^1.5.0
   lottie: ^0.7.0+1

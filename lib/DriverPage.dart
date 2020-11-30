@@ -71,13 +71,25 @@ class DriverPageContents extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AccountPageOptionButton(
-                          icon: FontAwesomeIcons.calendarPlus,
-                          text: "Book Shifts",
-                          onPressed: () {}),
+                        icon: FontAwesomeIcons.calendarPlus,
+                        text: "Book Shifts",
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          "/bshift",
+                          arguments: ShiftPageSettings(
+                              "/bshift", "driver", driverTheme),
+                        ),
+                      ),
                       AccountPageOptionButton(
-                          icon: FontAwesomeIcons.peopleCarry,
-                          text: "My Shifts",
-                          onPressed: () {}),
+                        icon: FontAwesomeIcons.peopleCarry,
+                        text: "My Shifts",
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            "/vshift",
+                            arguments: ShiftPageSettings(
+                                "/vshift", "driver", driverTheme),
+                          );
+                        },
+                      ),
                       Divider(
                         height: 10,
                         indent: 60,
@@ -94,9 +106,14 @@ class DriverPageContents extends StatelessWidget {
                                 builder: (context) => ParcelScanner("driver"));
                           }),
                       AccountPageOptionButton(
-                          icon: FontAwesomeIcons.route,
-                          text: "Plan Route",
-                          onPressed: () {}),
+                        icon: FontAwesomeIcons.route,
+                        text: "Plan Route",
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          "/route",
+                          arguments: ShiftPageSettings(
+                              "/route", "driver", driverTheme),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -105,8 +122,11 @@ class DriverPageContents extends StatelessWidget {
           ],
         ),
         Expanded(
-          child: SvgPicture.asset(
-            "assets/undraw/driver.svg",
+          child: Hero(
+            tag: "illustration",
+            child: SvgPicture.asset(
+              "assets/undraw/driver.svg",
+            ),
           ),
         ),
       ],
