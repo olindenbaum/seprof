@@ -10,8 +10,11 @@ import 'package:seprof/RoutePlannerPage.dart';
 import 'package:seprof/SignupPage.dart';
 import 'package:seprof/SplashScreen.dart';
 import 'package:seprof/StartPage.dart';
+import 'package:seprof/Timetable.dart';
 import 'package:seprof/Vars.dart';
 import 'package:seprof/ViewShiftPage.dart';
+
+import 'ParcelPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +36,8 @@ class MyApp extends StatelessWidget {
         "/splash": (context) => SplashPage(),
         // "/signup": (context) => SignupPage(),
         // "/login": (context) => LoginPage(),
+        "/parcels": (context) => ParcelPage("coordinator", coordinatorTheme),
+        "/timetable": (context) => TimetablePage(),
         "/coordinator": (context) => CoordinatorPage(),
         "/packer": (context) => PackerPage(),
         "/driver": (context) => DriverPage()

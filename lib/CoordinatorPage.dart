@@ -72,7 +72,9 @@ class CoordinatorPageContents extends StatelessWidget {
                   AccountPageOptionButton(
                       icon: FontAwesomeIcons.calendar,
                       text: "Timetable",
-                      onPressed: () {}), //TODO
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/timetable");
+                      }),
                   AccountPageOptionButton(
                       icon: Icons.people,
                       text: "Update Recipients",
@@ -80,15 +82,20 @@ class CoordinatorPageContents extends StatelessWidget {
                   AccountPageOptionButton(
                       icon: FontAwesomeIcons.gift,
                       text: "View Parcels",
-                      onPressed: () {}), //TODO
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/parcels");
+                      }), //TODO
                 ],
               ),
             ),
           ],
         ),
         Expanded(
-          child: SvgPicture.asset(
-            "assets/undraw/coordinator.svg",
+          child: Hero(
+            tag: "illustration",
+            child: SvgPicture.asset(
+              "assets/undraw/coordinator.svg",
+            ),
           ),
         ),
       ],
