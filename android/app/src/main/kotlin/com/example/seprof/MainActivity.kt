@@ -1,4 +1,4 @@
-package com.example.seprof
+package com.lindev.seprof
 
 import io.flutter.embedding.android.FlutterActivity
 
