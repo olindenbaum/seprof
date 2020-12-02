@@ -65,10 +65,6 @@ class _SignupPageState extends State<SignupPage> {
               },
               dataSource: [
                 {
-                  "display": "Coordinator",
-                  "value": "coordinator",
-                },
-                {
                   "display": "Packer",
                   "value": "packer",
                 },
@@ -136,17 +132,16 @@ class _SignupPageState extends State<SignupPage> {
           children: <Widget>[
             _accountType == "driver"
                 ? RaisedButton(
-                    color: Theme.of(context).primaryColor,
+                    color: driverTheme.primaryColor,
                     child: Text("Upload Drivers license"),
-                    onPressed: null,
+                    onPressed: () {},
                   )
                 : Container(),
             (_accountType == "packer" || _accountType == "driver")
                 ? RaisedButton(
-                    color: Theme.of(context).primaryColor,
+                    color: driverTheme.primaryColor,
                     child: Text("Upload Passport"),
-                    onPressed: null,
-                  )
+                    onPressed: () {})
                 : Container(),
           ],
         ),
@@ -194,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
             ],
           ),
           child: RaisedButton(
-            color: Theme.of(context).accentColor,
+            color: driverTheme.accentColor,
             shape: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(90.0)),
               borderSide: BorderSide(color: Colors.transparent),

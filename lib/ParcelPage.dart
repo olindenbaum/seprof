@@ -150,7 +150,7 @@ class _ParcelPageContentsState extends State<ParcelPageContents> {
                 height: 80),
             Container(
               padding: const EdgeInsets.only(left: 30),
-              height: MediaQuery.of(context).size.height * 0.909 - 16 - 60 - 80,
+              height: MediaQuery.of(context).size.height * 0.89 - 16 - 60 - 80,
               child: Center(
                 child: SingleChildScrollView(
                   child: AnimatedStreamList<String>(

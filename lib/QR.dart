@@ -165,7 +165,7 @@ class ScannedParcelPage extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Tag ID : randomNum\nPeople in household: randomNum\nNotes: randomNotes\nData: $data",
+                  "Tag ID : randomNum\nPeople in household: randomNum\nNotes: randomNotes\nData: $data", //TODO
                   style: TextStyle(fontSize: 25),
                 ),
               ),
