@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animated_qr_code_scanner/AnimatedQRViewController.dart';
 import 'package:animated_qr_code_scanner/animated_qr_code_scanner.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class ParcelScanner extends StatelessWidget {
         actions: [
           FlatButton(
             child: Text('OK',
-                style: TextStyle(color: Theme.of(context).accentColor)),
+                style: TextStyle(color: Theme.of(context).primaryColor)),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -26,7 +28,7 @@ class ParcelScanner extends StatelessWidget {
           ),
           FlatButton(
             child: Text('Rescan',
-                style: TextStyle(color: Theme.of(context).accentColor)),
+                style: TextStyle(color: Theme.of(context).primaryColor)),
             onPressed: () {
               Navigator.of(context).pop();
               controller.resume();
@@ -49,7 +51,7 @@ class ParcelScanner extends StatelessWidget {
         actions: [
           FlatButton(
             child: Text('Yes',
-                style: TextStyle(color: Theme.of(context).accentColor)),
+                style: TextStyle(color: Theme.of(context).primaryColor)),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -62,7 +64,7 @@ class ParcelScanner extends StatelessWidget {
           ),
           FlatButton(
             child: Text('Rescan',
-                style: TextStyle(color: Theme.of(context).accentColor)),
+                style: TextStyle(color: Theme.of(context).primaryColor)),
             onPressed: () {
               Navigator.of(context).pop();
               controller.resume();
@@ -161,13 +163,11 @@ class ScannedParcelPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Tag ID : randomNum\nPeople in household: randomNum\nNotes: randomNotes\nData: $data", //TODO
-                  style: TextStyle(fontSize: 25),
-                ),
+              Text(
+                "Tag ID : ${Random().nextInt(41824).toRadixString(16).toUpperCase()}\nPeople in household: ${Random().nextInt(5)}\nNotes: None",
+                style: TextStyle(fontSize: 25),
               ),
             ],
           ),
